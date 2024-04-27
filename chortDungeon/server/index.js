@@ -24,7 +24,7 @@ app.use(bodyParser.json())
 
 //general uses
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: 'https://662cf1679d51f3c26c3b405e--preeminent-sunburst-1c09dd.netlify.app',
     methods: 'GET,POST',
     credentials: true,
 }))
