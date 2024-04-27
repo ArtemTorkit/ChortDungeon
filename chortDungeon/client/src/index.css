@@ -1,0 +1,174 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html{
+  font-family: 'VT323', monospace;
+}
+
+@layer base{
+  .border-container {
+    border: 5px double #4D2F00;
+    background: #F5E9CD;
+    box-shadow: inset 0px 0px 10px 1px #7e7e7e;
+  }
+  .border-bottom {
+    border-bottom: 2px solid #4D2F00;
+    background: #F5E9CD;
+    box-shadow: inset 0px 0px 10px 1px #7e7e7e;
+  }
+  .border {
+    border: 3px solid #4D2F00;
+    background: #F5E9CD;
+    box-shadow: inset 0px 0px 10px 1px #7e7e7e;
+  }
+  .side-border-container{
+    box-shadow: inset 0px 0px 10px 1px #7e7e7e;
+    border-right: 3px solid #4D2F00;
+    border-left: 3px solid #4D2F00;
+    background: #F5E9CD;
+  }
+  .border-around{
+    border: 2px solid #4D2F00;
+    border-top: 0;
+  }
+  .button-primary {
+    @apply text-white bg-blue text-center w-[270px] py-4 text-lg
+  }
+
+  .background-net{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 4px;
+    z-index: 1;
+    background-image: url('./assets/net.gif');
+  }
+  .net-top{
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index: 2;
+  }
+
+  button, .button{
+    border: 5px double #4D2F00;
+    background: #F5E9CD;
+    box-shadow: inset 0px 0px 10px 1px #7e7e7e, 2px 3px 4px 2px #a5a5a5;
+    transition: all ease 0.2s;
+  }
+  button:hover, .button:hover{
+    transition: all ease 0.2s;
+    box-shadow: inset 0px 0px 3px 1px #7e7e7e, 2px 2px 2px 1px #a5a5a5;
+  }
+  button:active, .button:active{
+    transition: all ease 0.2s;
+    box-shadow: inset 0px 0px 1px 1px #7e7e7e, 0px 0px 2px 0px #a5a5a5;
+  }
+  .button-element:hover{
+    transition: all ease 0.2s;
+    box-shadow: inset 0px 0px 7px 1px #7e7e7e;
+    cursor: pointer;
+  }
+  .previous-game-container{
+    box-shadow: inset 0px 0px 10px 3px #7e7e7e;
+    border-right: 2px solid #4D2F00;
+    border-bottom: 2px solid #4D2F00;
+  }
+  
+}
+.prev-game {
+  transition: all ease 0.2s;
+}
+.prev-game:hover{
+    transition: all ease 0.2s;
+    box-shadow: inset 0px 0px 10px 3px #7e7e7e;
+    cursor: pointer;
+}
+.prev-game:active {
+  transition: all ease 0.2s;
+  box-shadow: inset 0px 0px 6px 1px #7e7e7e;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #F6D890;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #bbbbbb;
+}
+
+/* Buttons */
+::-webkit-scrollbar-button:single-button {
+  background-color: #F6D890;
+  display: block;
+  border-style: solid;
+  height: 13px;
+  width: 16px;
+  box-shadow: inset 0px 0px 6px 1px #7e7e7e;
+
+}
+
+/* Up */
+::-webkit-scrollbar-button:single-button:vertical:decrement {
+  border-width: 1px;
+    border-color: #4D2F00;
+    height: 29px;
+    background-image: url('./assets/upArrow.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+::-webkit-scrollbar-button:single-button:vertical:decrement:hover {
+  border-color: #684103;
+}
+
+/* Down */
+::-webkit-scrollbar-button:single-button:vertical:increment {
+  border-width: 1px;
+  border-color: #4D2F00;
+  height: 29px;
+    background-image: url('./assets/downArrow.svg');
+    background-repeat: no-repeat;
+      background-position: center;
+}
+
+::-webkit-scrollbar-button:vertical:single-button:increment:hover {
+  border-color: #684103;
+}
+
+.scroll-container {
+  overflow-y: auto;
+}
+
+.scroll-container::-webkit-scrollbar {
+  width: 30px;
+  padding: 10px;
+}
+
+/* Track */
+.scroll-container::-webkit-scrollbar-track {
+  background: #F6D890;
+  box-shadow: inset 0px 0px 10px 3px #7e7e7e;
+    border: 5px double #4D2F00;
+  /* Set a transparent background for the track */
+}
+
+/* Handle */
+.scroll-container::-webkit-scrollbar-thumb {
+  background: #4D2F00;
+  
+  /* Set a transparent background for the scrollbar handle */
+}
+.text-area{
+  box-shadow: inset 0px 0px 10px 3px #7e7e7e;
+}
+
+textarea {
+  resize: none;
+}
+.message-ai {
+  box-shadow: inset 0px 0px 17px 3px #7e7e7e;
+}
