@@ -1,12 +1,13 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import arrow from '../assets/arrow.svg'
 import back from '../assets/back.svg'
-import audio from './bruh.mp3'
-import petro from './petro.mp3'
+import audio from '../assets/audio/bruh.mp3'
+import petro from '../assets/audio/petro.mp3'
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import 'regenerator-runtime/runtime';
 import microphone from '../assets/microphone.png'
 
-import { appContext } from '../Desktop'
+import { appContext } from '../context/AppContext'
 import { useContext } from 'react'
 
 const GameMenu = ({ textArea, setTextArea, addNewMessage, prevMessage, isLoading, fontSize, setFontSize, fetchImage}) => {
@@ -34,12 +35,23 @@ const GameMenu = ({ textArea, setTextArea, addNewMessage, prevMessage, isLoading
     }
 
 
-    //speech recognition
+    // speech recognition
     const [isThereSpeechRecognition, setIsThereSpeechRecognition] = useState(language == 'UA' ? false : true) 
-    const [speechActive, setSpeechActive] = useState(false) 
-    const { transcript, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition()
+    const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition()
+
+    useEffect(() => {
+        // When listening naturally stops (e.g. timeout), append transcript and reset
+        if (!listening && transcript) {
+            setTextArea(prev => prev + (prev && !prev.endsWith(' ') ? ' ' : '') + transcript);
+            resetTranscript();
+        }
+    }, [listening, transcript, resetTranscript, setTextArea]);
 
     const startListening = () => {
+        if (!browserSupportsSpeechRecognition) {
+            alert("Your browser does not support speech recognition.");
+            return;
+        }
         let speechLanguage = ''
         if (language == 'ENG') {
             speechLanguage = 'en-US'
@@ -49,19 +61,16 @@ const GameMenu = ({ textArea, setTextArea, addNewMessage, prevMessage, isLoading
         }
         if (language == 'UA') {
             setIsThereSpeechRecognition(false)
+            return;
         }
 
         SpeechRecognition.startListening({ continuous: true, language: speechLanguage })
         console.log('start listening...')
-        setSpeechActive(true)
     }
-    const stopListening = () => {
-        SpeechRecognition.stopListening({ continuous: true })
-        console.log('stop listening!')
-        setTextArea(textArea + transcript)
-        resetTranscript()
-        setSpeechActive(false)
 
+    const stopListening = () => {
+        SpeechRecognition.stopListening()
+        console.log('stop listening!')
     }
 
   return (
@@ -70,19 +79,18 @@ const GameMenu = ({ textArea, setTextArea, addNewMessage, prevMessage, isLoading
               <form className="flex h-full" onSubmit={addNewMessage}>
                   <div className="grow relative">
                       {isThereSpeechRecognition && (
-                        
                           <div className="absolute right-0 top-0">
-                              {!speechActive ? (
-                                <div onClick={e => startListening()} className="text-4 XL">
+                              {!listening ? (
+                                <div onClick={() => startListening()} className="text-4 XL cursor-pointer">
                                   <img src={microphone} className='w-[50px]' alt="Start" />
                                 </div>
-                                      ): (
-                              <div onClick={e => stopListening()}>
+                              ) : (
+                                <div onClick={() => stopListening()} className="cursor-pointer">
                                   <img src={microphone} className='w-[50px] opacity-60' alt="Stop" />
                                 </div>
-                                  )}
-                            </div>
-                          )}
+                              )}
+                          </div>
+                      )}
                       <textarea
                           value={textArea + transcript}
                           onChange={e => setTextArea(e.target.value)}

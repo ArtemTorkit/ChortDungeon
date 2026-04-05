@@ -6,7 +6,7 @@ import batery from '../assets/baterry.svg'
 import petal from '../assets/red_petal.png'
 import { format } from 'date-fns';
 
-import { appContext } from '../Desktop'
+import { appContext } from '../context/AppContext'
 import { useContext } from 'react'
 
 const Footer = () => {

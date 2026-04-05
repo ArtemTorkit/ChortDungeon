@@ -1,47 +1,48 @@
 const express = require('express');
-const passport = require('passport')
-const bodyParser = require('body-parser')
-const session = require('express-session')
-const cors = require('cors')
+const passport = require('passport');
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const cors = require('cors');
 
-//auth connection
-require('./auth')
-//creating server obj
+// Import configuration
+const connectDB = require('./config/db');
+require('./config/passport'); // Initialize passport strategy
+
+// Import routes
+const authRoutes = require('./routes/authRoutes');
+const gameRoutes = require('./routes/gameRoutes');
+const openaiRoutes = require('./routes/openaiRoutes');
+
+// Connect to Database
+connectDB();
+
 const app = express();
 
-//auth uses
+// Middlewares
 app.use(session({
     secret: 'mysecret',
     resave: false,
     saveUninitialized: true,
-    cookie: {secure: false}
-}))
+    cookie: { secure: false }
+}));
+
 app.use(passport.initialize());
-app.use(passport.session())
+app.use(passport.session());
 
-//openai uses
-app.use(bodyParser.json())
-
-//general uses
 app.use(cors({
-    origin: 'https://662cf1679d51f3c26c3b405e--preeminent-sunburst-1c09dd.netlify.app',
-    methods: 'GET,POST',
+    origin: ['https://662cf1679d51f3c26c3b405e--preeminent-sunburst-1c09dd.netlify.app', 'http://localhost:3000'],
+    methods: 'GET,POST,PUT',
     credentials: true,
-}))
-app.use(express.json())
+}));
 
-//connection and server routes of openai
-const openaiRoutes = require('./routes/openai');
-app.use('/openai', openaiRoutes);  
+app.use(bodyParser.json());
+app.use(express.json());
 
-//connection of database and database routes
-const dbRoutes = require('./routes/mongodb');
-app.use('/db', dbRoutes)
-
-//connection of auth routes
-const authRoutes = require('./routes/auth')
-app.use('/auth', authRoutes)
+// Apply Routes
+app.use('/auth', authRoutes);
+app.use('/db', gameRoutes);
+app.use('/openai', openaiRoutes);
 
 app.listen(5000, () => {
-    console.log('server is listening on port 5000...')
-})
+    console.log('server is listening on port 5000...');
+});

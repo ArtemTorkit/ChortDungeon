@@ -1,10 +1,13 @@
 import Desktop from './Desktop';
+import { AppProvider } from './context/AppContext';
 
 function App() {
   return (
-    <div className="App">
-        <Desktop/>
-    </div>
+    <AppProvider>
+      <div className="App">
+          <Desktop/>
+      </div>
+    </AppProvider>
   );
 }
 

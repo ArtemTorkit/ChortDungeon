@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react'
 
-import { appContext } from '../Desktop'
+import { appContext } from '../context/AppContext'
 import { useContext } from 'react'
 
 const NewGame = () => {

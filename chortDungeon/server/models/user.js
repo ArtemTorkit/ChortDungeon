@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-// Define a schema for the Game data
 const gameSchema = new mongoose.Schema({
     gamePrompt: {
         type: String,
@@ -10,27 +9,29 @@ const gameSchema = new mongoose.Schema({
         {
             role: {
                 type: String,
-                enum: ['assistant', 'user'], // Define the possible roles
+                enum: ['assistant', 'user', 'player', 'kabachok'], // Allowed roles (kabachok added from test route)
                 required: true,
             },
             content: {
                 type: String,
-                required: true,
+                // Make it required false, because sometimes they pass 'message' in older dummy routes
+                required: false, 
             },
+            message: {
+                type: String,
+                required: false,
+            }
         },
     ],
 });
 
-// Define the User schema
 const userSchema = new mongoose.Schema({
     id: {
         type: String,
         required: true,
     },
-    games: [gameSchema], // An array of game documents
+    games: [gameSchema], 
 });
 
-// Create a model for the User data
 const User = mongoose.model('User', userSchema);
-
 module.exports = User;

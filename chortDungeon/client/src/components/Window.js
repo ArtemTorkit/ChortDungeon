@@ -6,8 +6,9 @@ import Oauth from './Oauth'
 import PreviousGames from './PreviousGames'
 import NewGame from './NewGame'
 import petal from '../assets/golden_petal.png'
+import { checkAuth } from '../services/api'
 
-import { appContext } from '../Desktop'
+import { appContext } from '../context/AppContext'
 import { useContext } from 'react'
 
 const Window = () => {
@@ -21,17 +22,13 @@ const Window = () => {
         setIsFooterVisible(true)
 
         console.log('--checking for succesfull login--')
-        fetch('http://localhost:5000/auth/cabage', {
-            method: 'GET', // or any other HTTP method
-            credentials: 'include', // Allow credentials (cookies) to be sent with the request
-        })
-            .then((response) => response.json())
+        checkAuth()
             .then((data) => {
                 console.log(data);
                 setUserId(data);
             })
             .catch((error) => {
-                console.log(error)
+                setUserId(null);
             });
         setIsThisPreviousGame(false)
     }, [])
@@ -96,7 +93,7 @@ const Window = () => {
                     )}
                     {activePage == 3 && (
                         <div className="h-full w-full">
-                            <PreviousGames/>
+                            <PreviousGames setActivePage={setActivePage}/>
                         </div>
                     )}
             </div>
